@@ -1,9 +1,8 @@
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { useAuth } from "@/lib/auth";
 
-export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+export const PublicRoute = ({ children }: { children: React.ReactNode }) => {
   const { user, loading } = useAuth();
-  const location = useLocation();
 
   if (loading) {
     return (
@@ -13,8 +12,8 @@ export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
     );
   }
 
-  if (!user) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
+  if (user) {
+    return <Navigate to="/dashboard" replace />;
   }
 
   return <>{children}</>;

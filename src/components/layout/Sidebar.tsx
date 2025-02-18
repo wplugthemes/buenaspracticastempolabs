@@ -2,78 +2,48 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
-  FileCheck,
-  ClipboardCheck,
-  Factory,
-  Bug,
-  Truck,
   Home,
+  ClipboardCheck,
+  Bug,
+  Trash2,
+  Sparkles,
+  CheckSquare,
 } from "lucide-react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
-const menuItems = [
-  { icon: Home, label: "Home", href: "/" },
-  { icon: ClipboardCheck, label: "Buenas Prácticas", href: "/hygiene" },
-  {
-    icon: FileCheck,
-    label: "Documentos",
-    href: "/documents/setup",
-    variant: "ghost" as const,
-  },
-  {
-    icon: Factory,
-    label: "Instalaciones",
-    href: "/facilities",
-    disabled: true,
-  },
-  {
-    icon: Bug,
-    label: "Control de Plagas",
-    href: "/pest-control",
-    disabled: true,
-  },
-  {
-    icon: Truck,
-    label: "Proveedores",
-    href: "/suppliers",
-    disabled: true,
-  },
-];
+interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-export function Sidebar({ className }: { className?: string }) {
-  const location = useLocation();
+export function Sidebar({ className }: SidebarProps) {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const routes = [
+    { icon: Home, label: "Home", href: "/dashboard" },
+    { icon: ClipboardCheck, label: "Higiene", href: "/hygiene" },
+    { icon: Bug, label: "Control de Plagas", href: "/pest-control" },
+    { icon: Trash2, label: "Gestión de Residuos", href: "/waste" },
+    { icon: Sparkles, label: "Limpieza", href: "/cleaning" },
+    { icon: CheckSquare, label: "Autoevaluación", href: "/assessment" },
+  ];
 
   return (
-    <div className={cn("pb-12 border-r", className)}>
+    <div className={cn("pb-12", className)}>
       <div className="space-y-4 py-4">
         <div className="px-3 py-2">
           <div className="space-y-1">
-            <h2 className="mb-2 px-4 text-xl font-semibold tracking-tight">
-              Módulos
-            </h2>
-            <ScrollArea className="h-[calc(100vh-12rem)] px-2">
-              <div className="space-y-1">
-                {menuItems.map((item) => (
-                  <Button
-                    key={item.href}
-                    variant={
-                      location.pathname === item.href ? "secondary" : "ghost"
-                    }
-                    size="lg"
-                    className={cn(
-                      "w-full justify-start",
-                      item.disabled && "opacity-50 cursor-not-allowed",
-                    )}
-                    onClick={() => !item.disabled && navigate(item.href)}
-                    disabled={item.disabled}
-                  >
-                    <item.icon className="mr-2 h-4 w-4" />
-                    {item.label}
-                  </Button>
-                ))}
-              </div>
-            </ScrollArea>
+            {routes.map((route) => (
+              <Button
+                key={route.href}
+                variant={
+                  location.pathname === route.href ? "secondary" : "ghost"
+                }
+                className="w-full justify-start"
+                onClick={() => navigate(route.href)}
+              >
+                <route.icon className="mr-2 h-4 w-4" />
+                {route.label}
+              </Button>
+            ))}
           </div>
         </div>
       </div>

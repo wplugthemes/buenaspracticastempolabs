@@ -1,21 +1,43 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ClipboardCheck, FileText, Truck, BarChart } from "lucide-react";
+import {
+  ClipboardCheck,
+  FileText,
+  Truck,
+  BarChart,
+  Menu,
+  X,
+} from "lucide-react";
 
 const LandingPage = () => {
   const navigate = useNavigate();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-white">
       {/* Navigation */}
-      <nav className="border-b">
+      <nav className="border-b relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 items-center">
             <div className="flex-shrink-0">
               <img src="/logo.svg" alt="BPM Logo" className="h-8 w-auto" />
             </div>
-            <div className="flex space-x-8">
+
+            {/* Mobile menu button */}
+            <button
+              className="md:hidden p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              {mobileMenuOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
+            </button>
+
+            {/* Desktop menu */}
+            <div className="hidden md:flex md:space-x-8">
               <a href="#" className="text-gray-600 hover:text-gray-900">
                 Inicio
               </a>
@@ -35,27 +57,76 @@ const LandingPage = () => {
                 Contacto
               </a>
             </div>
-            <Button
-              onClick={() => navigate("/login")}
-              className="bg-teal-600 hover:bg-teal-700"
-            >
-              Acceder a la App
-            </Button>
+
+            <div className="hidden md:block">
+              <Button
+                onClick={() => navigate("/login")}
+                className="bg-teal-600 hover:bg-teal-700"
+              >
+                Acceder a la App
+              </Button>
+            </div>
           </div>
         </div>
+
+        {/* Mobile menu */}
+        {mobileMenuOpen && (
+          <div className="md:hidden border-t bg-white">
+            <div className="px-2 pt-2 pb-3 space-y-1">
+              <a
+                href="#"
+                className="block px-3 py-2 text-base font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md"
+              >
+                Inicio
+              </a>
+              <a
+                href="#features"
+                className="block px-3 py-2 text-base font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md"
+              >
+                Características
+              </a>
+              <a
+                href="#pricing"
+                className="block px-3 py-2 text-base font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md"
+              >
+                Precios
+              </a>
+              <a
+                href="#testimonials"
+                className="block px-3 py-2 text-base font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md"
+              >
+                Testimonios
+              </a>
+              <a
+                href="#contact"
+                className="block px-3 py-2 text-base font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md"
+              >
+                Contacto
+              </a>
+              <div className="mt-4 px-3">
+                <Button
+                  onClick={() => navigate("/login")}
+                  className="w-full bg-teal-600 hover:bg-teal-700"
+                >
+                  Acceder a la App
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
       </nav>
 
       {/* Hero Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 text-center">
-        <h1 className="text-5xl font-bold tracking-tight text-gray-900 mb-4">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-24 text-center">
+        <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-gray-900 mb-4">
           Implementa BPM de manera
           <br />
           <span className="text-teal-600">fácil y eficiente</span>
         </h1>
-        <p className="text-xl text-gray-600 mb-8">
+        <p className="text-lg md:text-xl text-gray-600 mb-8">
           Cumple con la NOM-251-SSA1 y asegura la calidad en tu producción
         </p>
-        <div className="flex justify-center gap-4">
+        <div className="flex flex-col sm:flex-row justify-center gap-4">
           <Button
             size="lg"
             className="bg-teal-600 hover:bg-teal-700"
@@ -70,12 +141,12 @@ const LandingPage = () => {
       </div>
 
       {/* Features Section */}
-      <div id="features" className="bg-gray-50 py-24">
+      <div id="features" className="bg-gray-50 py-12 md:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-center mb-16">
+          <h2 className="text-2xl md:text-3xl font-bold text-center mb-12 md:mb-16">
             Características Clave
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="text-center">
               <div className="bg-white p-6 rounded-lg shadow-sm">
                 <ClipboardCheck className="h-12 w-12 text-teal-600 mx-auto mb-4" />
@@ -125,9 +196,9 @@ const LandingPage = () => {
       </div>
 
       {/* Pricing Section */}
-      <div id="pricing" className="py-24">
+      <div id="pricing" className="py-12 md:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-center mb-16">
+          <h2 className="text-2xl md:text-3xl font-bold text-center mb-12 md:mb-16">
             Planes y Precios
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
